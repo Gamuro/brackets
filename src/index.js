@@ -5,18 +5,23 @@ module.exports = function check(str, bracketsConfig) {
         return false;
     }
     for(let i=0;i<res.length;i++){
-        for(let j=0;j<bracketsConfig.length;j++){
-            if(bracketsConfig[j][0]==res[i]){
+        for(let j=0;j<bracketsConfig.length;j++){    
+            if(bracketsConfig[j][0]==res[i] ){
+            if(stack.length>0 && stack[stack.length-1]==bracketsConfig[j][0] && bracketsConfig[j][1]==res[i]){
+               stack.splice(stack.length-1,1);
+            }else {
                 stack.push(res[i]);
-            }else if(bracketsConfig[j][1]==res[i]){
+            }
+        }
+             else if(bracketsConfig[j][1]==res[i]){
                 if(stack[stack.length-1]==bracketsConfig[j][0]){
                     stack.splice(stack.length-1, 1);
                  
-                }else return false;
+                }else if(stack[stack.length-1] !== bracketsConfig[j][0]) return false;
             }
         }
     }
-    console.log(stack);
+    console.log('Длина стека', stack.length, stack);
     return stack.length>0 ? false : true;
 }
 
